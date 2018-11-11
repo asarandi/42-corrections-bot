@@ -166,15 +166,15 @@ def store_session(session): #save session into a file
 def init_session():     # tries to load a saved session from file, or create a new one
     session = load_session()
     if session == False:
-        if debug: print('load_session() failed, trying to create new')
+        if debug: print('[debug] load_session() failed, trying to create new')
         session = create_session()
         if session == False:
             if debug:
-                print('failed to create session, bad credentials?')
+                print('[debug] failed to create session, bad credentials?')
             sys.exit(1)
         session = load_session()
-        if not session:
-            print('load_session() failed, something is wrong')
+        if debug and not session:
+            print('[debug] load_session() failed, something is wrong')
             sys.exit(1)
     return session
 
@@ -188,7 +188,7 @@ def create_session():   # creates a session, logs in, saves session to a file
         page_signin = req1.content.decode('utf-8')
     else:
         if debug:
-            print('failed to get sign-in page, requests.get returned: ', req1.status_code)
+            print('[debug] failed to get sign-in page, requests.get returned: ', req1.status_code)
         return False
         
     soup1 = BeautifulSoup(page_signin, features="html.parser")  ## prints a warning if not specified
@@ -209,7 +209,7 @@ def create_session():   # creates a session, logs in, saves session to a file
         return True
     else:
         if debug:
-            print('failed to post login data, requests.post returned: ', req2.status_code)
+            print('[debug] failed to post login data, requests.post returned: ', req2.status_code)
         return False
 
 ###############################################################################
@@ -225,7 +225,7 @@ if req3.status_code == 200:
     page_profile = req3.content.decode('utf-8')
 else:
     if debug:
-        print('failed to get profile page, response code: ', req3.status_code)
+        print('[debug] failed to get profile page, response code: ', req3.status_code)
     sys.exit(1)
 
 
@@ -235,7 +235,7 @@ soup2 = BeautifulSoup(page_profile, features="html.parser")
 if soup2.title.string != intra_profile_page_title:
     #maybe we're logged out? try to login again?
     if debug:
-        print('wrong profile title page; logged out or bad credentials? deleting stored session file')
+        print('[debug] wrong profile title page; logged out or bad credentials? deleting stored session file')
     try:
         os.remove(intra_session_file)
     except:
@@ -243,7 +243,7 @@ if soup2.title.string != intra_profile_page_title:
     sys.exit(1)
 
 if debug:
-    print('got profile page .. ok')
+    print('[debug] got profile page .. ok')
 if save_html:
     output = 'profile_' + str(time.time()) + '.html'
     with open(output, 'w') as fp:
@@ -285,14 +285,14 @@ for reminder in soup2.find_all('div', class_='project-item reminder'):
                 print(message)
 
 if debug and not message:
-    print('debug: no corrections on your intra page')
+    print('[debug] no corrections on your intra page')
 
 if save_session:
-    if debug: print('debug: saving session')
+    if debug: print('[debug] saving session')
     store_session(session)
 
 if sign_out:
-    if debug: print('debug: signing out')
+    if debug: print('[debug] signing out')
     signout_data = {'_method': 'delete', 'authenticity_token': ''}
     for meta in soup2.find_all('meta'):
         if meta.get('name') == 'csrf-token':
