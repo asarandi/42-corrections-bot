@@ -58,10 +58,13 @@ headers = {'User-Agent': user_agent}
 log_file = 'corrections.log'
 slack_user_list_file = 'slack.user.list'
 
+
+###############################################################################
 def twilio_sms(message):
     tc = TwilioClient(twilio_account_sid, twilio_auth_token)
     a = tc.messages.create(to=twilio_to_number, from_=twilio_from_number, body=message)
 
+###############################################################################
 def slack_update_user_list():
     sc = SlackClient(slack_token)
     user_list = sc.api_call('users.list')
@@ -69,6 +72,7 @@ def slack_update_user_list():
         pickle.dump(user_list, fp)
         fp.close()
 
+###############################################################################
 def slack_get_user_list():
     user_list = {};
     if os.path.isfile(slack_user_list_file) == False:
@@ -83,6 +87,7 @@ def slack_get_user_list():
         pass
     return user_list
         
+###############################################################################
 def slack_get_user_id(display_name):
     user_list = slack_get_user_list()
     for user in user_list['members']:
@@ -90,6 +95,7 @@ def slack_get_user_id(display_name):
             return user['id']
     return None
 
+###############################################################################
 def slack_send_direct_message(user1, message):
     userid1 = slack_get_user_id(user1)
     if userid1 == None:
@@ -98,6 +104,7 @@ def slack_send_direct_message(user1, message):
     sc.api_call('chat.postMessage', channel=userid1, text=message);
     return True
 
+###############################################################################
 def slack_send_group_message(user1, user2, message):
     userid1 = slack_get_user_id(user1)
     if userid1 == None:
@@ -114,6 +121,7 @@ def slack_send_group_message(user1, user2, message):
     sc.api_call('chat.postMessage', channel=group_chat['channel']['id'], text=message)
     return True
 
+###############################################################################
 def is_text_in_file(filename, text):    #returns true if text matches a line in file, false otherwise
     try:
         with open(filename, 'r') as fp:
@@ -126,6 +134,7 @@ def is_text_in_file(filename, text):    #returns true if text matches a line in 
     except:
             return False
 
+###############################################################################
 def put_text_in_file(filename, text):
     try:
         with open(filename, 'a') as fp:
@@ -145,6 +154,7 @@ def is_online(host="8.8.8.8", port=53, timeout=3):      # returns true if we can
 		return False
 
 
+###############################################################################
 def load_session():     # get previously saved session from file
     try:
         with open(intra_session_file, 'rb') as fp:
@@ -154,6 +164,7 @@ def load_session():     # get previously saved session from file
     except:
         return False
 
+###############################################################################
 def store_session(session): #save session into a file
     try:
         with open(intra_session_file, 'wb') as fp:
@@ -163,6 +174,7 @@ def store_session(session): #save session into a file
     except:
         return False
 
+###############################################################################
 def init_session():     # tries to load a saved session from file, or create a new one
     session = load_session()
     if session == False:
@@ -178,6 +190,8 @@ def init_session():     # tries to load a saved session from file, or create a n
             sys.exit(1)
     return session
 
+###############################################################################
+###############################################################################
 ###############################################################################
 def create_session():   # creates a session, logs in, saves session to a file
     session = requests.Session()
