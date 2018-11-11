@@ -212,9 +212,7 @@ def create_session():   # creates a session, logs in, saves session to a file
             print('failed to post login data, requests.post returned: ', req2.status_code)
         return False
 
-
-
-#------------------------------------------------------------------------------
+###############################################################################
 #--main logic here-------------------------------------------------------------
 
 if is_online() != True:
