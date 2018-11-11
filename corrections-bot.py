@@ -191,8 +191,6 @@ def init_session():     # tries to load a saved session from file, or create a n
     return session
 
 ###############################################################################
-###############################################################################
-###############################################################################
 def create_session():   # creates a session, logs in, saves session to a file
     session = requests.Session()
     session.headers.update({'User-Agent': user_agent})
@@ -227,7 +225,8 @@ def create_session():   # creates a session, logs in, saves session to a file
         return False
 
 ###############################################################################
-#--main logic here-------------------------------------------------------------
+###############################################################################
+# [ main logic here] ##########################################################
 
 if is_online() != True:
 	print("offline")
