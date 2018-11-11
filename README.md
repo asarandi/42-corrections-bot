@@ -4,9 +4,7 @@ parses your intra page and sends a slack notification (and/or sms) when you have
 ### install the prerequisites:
 ```bash
 apt install python3-pip
-pip3 install bs4
-pip3 install twilio
-pip3 install slackclient
+pip3 install bs4 twilio slackclient
 ```
 </br>
 ### edit the script and add your credentials
