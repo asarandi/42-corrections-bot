@@ -26,8 +26,8 @@ crontab -e
 
 </br>
 </br>
-
 </br>
+
 #### correction appears on our intra profile page
 
 ![corrections-bot screenshot 1](screenshots/img1.png)
