@@ -17,13 +17,16 @@ pip3 install slackclient
 crontab -e
 ```
 (adjust folder paths as necessary)
-```
+```bash
 */15 * * * * cd /home/ubuntu/corrections; /usr/bin/python3 corrections-bot.py >> execution.log 2>&1
 ```
 </br>
+
 ### done
+
 </br>
 </br>
+
 </br>
 #### correction appears on our intra profile page
 
