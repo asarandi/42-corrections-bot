@@ -24,7 +24,7 @@ slack_token = 'xoxs-xxxxxxxxxxx-xxxxxxxxxxxx-xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxx
 # settings
 sign_out = False            # if set to True, bot will log out of intra, generates unwanted email notifications
 save_session = True
-save_html = False
+save_html = True
 debug = True
 send_sms = True
 send_group_msg = True
@@ -266,10 +266,10 @@ if save_html:
 message=None
 for reminder in soup2.find_all('div', class_='project-item reminder'):
     for project in reminder.find_all('div', class_='project-item-text'):
-        message = ' '.join(project.text.split()) + ' at '
+        message = ' '.join(project.text.split())
         for span in project.parent.find_all('span'):
             if span.has_attr('data-long-date'):
-                message += span.get('title')
+                message += ' at ' + span.get('title')
                 break
 
         partner = None
